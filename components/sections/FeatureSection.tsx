@@ -18,14 +18,13 @@ const FeatureSection = () => {
         {/* Left: Phone illustration */}
         <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
           <div style={{
-            background: 'linear-gradient(135deg, #E6F7F4, #f0fdf9)',
             borderRadius: '30px',
             padding: '24px',
             display: 'flex',
             justifyContent: 'center',
           }}>
             <Image
-              src="/feature-illustration.png"
+              src="/about-section.png"
               alt="Belajar kapan saja dan dimana saja"
               width={440}
               height={440}
@@ -38,9 +37,9 @@ const FeatureSection = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Badge */}
           <span style={{
-            background: 'linear-gradient(135deg, rgba(27,170,138,0.12), rgba(27,170,138,0.06))',
-            border: '1px solid rgba(27,170,138,0.25)',
-            color: '#0D7A62',
+            background: '#ffffff',
+            border: '1.5px solid #F97316',
+            color: '#F97316',
             padding: '6px 16px',
             borderRadius: '50px',
             fontSize: '13px',
@@ -55,20 +54,16 @@ const FeatureSection = () => {
             fontFamily: 'var(--font-fredoka)',
             fontSize: '40px',
             fontWeight: '700',
-            color: '#121212',
             lineHeight: '1.2',
             margin: '0',
           }}>
-            Belajar Lebih Dekat,{' '}
+            {/* Belajar → #0F766E, Lebih Dekat → #F97316 */}
+            <span style={{ color: '#0F766E' }}>Belajar </span>
+            <span style={{ color: '#F97316' }}>Lebih Dekat,</span>
             <br />
-            <span style={{
-              background: 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              Kapan Saja &amp; Di Mana Saja
-            </span>
+            {/* Kapan Saja & → #0F766E, Di Mana Saja → #F97316 */}
+            <span style={{ color: '#0F766E' }}>Kapan Saja &amp; </span>
+            <span style={{ color: '#F97316' }}>Di Mana Saja</span>
           </h2>
 
           <p style={{
@@ -83,7 +78,7 @@ const FeatureSection = () => {
             dan tempat. Belajar bersama Circle Pintar!
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {[
               { icon: 'devices', text: 'Akses dari semua perangkat — HP, tablet, dan laptop' },
               { icon: 'cloud_done', text: 'Materi tersimpan di cloud, belajar tanpa internet' },
@@ -105,27 +100,24 @@ const FeatureSection = () => {
                 <span style={{ fontSize: '15px', color: '#374151', fontWeight: '500' }}>{item.text}</span>
               </div>
             ))}
-          </div>
+          </div> */}
 
           <div style={{ paddingTop: '8px' }}>
-            <Link
-              href="/course"
-              style={{
+            <Link href="/about" className="hero-cta" style={{ border: '2px solid #F97316' }}>
+              Tentang Kami
+              {/* Circle putih bulat di kanan */}
+              <span style={{
+                width: '36px',
+                height: '36px',
+                background: '#ffffff',
+                borderRadius: '50%',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px',
-                background: 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
-                color: 'white',
-                padding: '13px 28px',
-                borderRadius: '50px',
-                fontWeight: '700',
-                fontSize: '15px',
-                textDecoration: 'none',
-                boxShadow: '0 6px 18px rgba(27, 170, 138, 0.3)',
-              }}
-            >
-              Coba Sekarang
-              <span className="material-icons" style={{ fontSize: '18px' }}>arrow_forward</span>
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <span className="material-icons" style={{ fontSize: '20px', color: '#0F766E' }}>arrow_forward</span>
+              </span>
             </Link>
           </div>
         </div>
