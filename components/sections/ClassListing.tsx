@@ -5,53 +5,51 @@ import ClassCard from '../ui/ClassCard';
 const classes = [
   {
     image: '/class-ipa.png',
-    category: 'IPA',
-    categoryColor: '#10B981',
-    title: 'IPA Terpadu Kelas 8',
-    rating: 4.8,
-    students: 1200,
-    label: 'TERPOPULER',
+    title: 'Biologi SMA/MA Kelas 10',
+    author: 'Oleh: Ibu Sari P., S.Pd.',
+    description: 'Jelajahi rahasia makhluk hidup dan ekosistem alam dengan cara seru',
+    progress: 7,
+    totalMateri: 10,
   },
   {
     image: '/class-mtk.png',
-    category: 'Matematika',
-    categoryColor: '#6366F1',
-    title: 'Matematika Dasar Kelas 7',
-    rating: 4.7,
-    students: 1150,
+    title: 'Fisika SMA/MA Kelas 10',
+    author: 'Oleh: Ibu Sari P., S.Pd.',
+    description: 'Jelajahi rahasia fisika dan hukum alam dengan cara seru',
+    progress: 7,
+    totalMateri: 10,
   },
   {
     image: '/class-ipa.png',
-    category: 'IPA',
-    categoryColor: '#10B981',
-    title: 'Kimia Dasar Kelas 10',
-    rating: 4.9,
-    students: 980,
-    label: 'TERBARU',
+    title: 'Matematika SMA/MA Kelas 10',
+    author: 'Oleh: Ibu Sari P., S.Pd.',
+    description: 'Jelajahi rahasia angka dan logika hitung dengan cara seru',
+    progress: 7,
+    totalMateri: 10,
   },
   {
     image: '/class-ips.png',
-    category: 'IPS',
-    categoryColor: '#F97316',
-    title: 'Sejarah Indonesia Modern',
-    rating: 4.8,
-    students: 1050,
+    title: 'Sejarah SMA/MA Kelas 10',
+    author: 'Oleh: Ibu Sari P., S.Pd.',
+    description: 'Jelajahi rahasia sejarah alam dan masa lalu dengan cara seru',
+    progress: 7,
+    totalMateri: 10,
   },
   {
     image: '/class-mtk.png',
-    category: 'Matematika',
-    categoryColor: '#6366F1',
-    title: 'Matematika SMA Kelas 10',
-    rating: 4.7,
-    students: 1100,
+    title: 'Biologi SMA/MA Kelas 10',
+    author: 'Oleh: Ibu Sari P., S.Pd.',
+    description: 'Jelajahi rahasia anatomi dan jaringan tubuh dengan cara seru',
+    progress: 7,
+    totalMateri: 10,
   },
   {
     image: '/class-ipa.png',
-    category: 'IPA',
-    categoryColor: '#10B981',
-    title: 'Fisika Dasar SMP Kelas 8',
-    rating: 4.6,
-    students: 950,
+    title: 'Biologi SMA/MA Kelas 10',
+    author: 'Oleh: Ibu Sari P., S.Pd.',
+    description: 'Jelajahi rahasia sel dan perkembangbiakan dengan cara seru',
+    progress: 7,
+    totalMateri: 10,
   },
 ];
 
@@ -69,9 +67,9 @@ const ClassListing = () => {
           marginBottom: '48px',
         }}>
           <span style={{
-            background: 'linear-gradient(135deg, rgba(27,170,138,0.12), rgba(27,170,138,0.06))',
-            border: '1px solid rgba(27,170,138,0.25)',
-            color: '#0D7A62',
+            background: '#ffffff',
+            border: '1.5px solid #F97316',
+            color: '#F97316',
             padding: '6px 16px',
             borderRadius: '50px',
             fontSize: '13px',
@@ -85,20 +83,14 @@ const ClassListing = () => {
             fontFamily: 'var(--font-fredoka)',
             fontSize: '40px',
             fontWeight: '700',
-            color: '#121212',
             margin: '0',
             lineHeight: '1.2',
           }}>
-            Temukan{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
+            <span style={{ color: '#0F766E' }}>Temukan</span>{' '}
+            <span style={{ color: '#F97316' }}>
               Kelas Favoritmu
             </span>{' '}
-            di Sini
+            <span style={{ color: '#0F766E' }}>di Sini</span>
           </h2>
 
           <p style={{
