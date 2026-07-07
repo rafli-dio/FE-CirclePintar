@@ -3,24 +3,28 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        'circle-green': '#1AB0B0', // Hijau utama CirclePintar
-        'circle-green-dark': '#168A8A', // Hijau lebih gelap untuk hover
-        'circle-black': '#121212', // Hitam untuk teks judul
-        'circle-gray': '#71717A', // Abu-abu untuk teks deskripsi
-        'circle-white': '#FFFFFF', // Putih untuk latar belakang
+        'circle-green': '#1BAA8A',
+        'circle-green-dark': '#0D7A62',
+        'circle-green-light': '#E6F7F4',
+        'circle-orange': '#F97316',
+        'circle-black': '#121212',
+        'circle-gray': '#71717A',
+        'circle-white': '#FFFFFF',
       },
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'], // Gunakan font yang sesuai desain
+        sans: ['var(--font-inter)', 'sans-serif'],
+        heading: ['var(--font-fredoka)', 'sans-serif'],
       },
     },
   },
   plugins: [],
 };
+
 export default config;

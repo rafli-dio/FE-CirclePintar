@@ -1,0 +1,164 @@
+// src/components/sections/HeroSection.tsx
+import Image from 'next/image';
+import Link from 'next/link';
+
+const HeroSection = () => {
+  return (
+    <section
+      style={{
+        background: 'linear-gradient(135deg, #f0fdf9 0%, #ffffff 60%, #fff7ed 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background decorative blobs */}
+      <div style={{
+        position: 'absolute', top: '-80px', right: '-80px',
+        width: '400px', height: '400px',
+        background: 'radial-gradient(circle, rgba(27,170,138,0.08) 0%, transparent 70%)',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-60px', left: '-60px',
+        width: '300px', height: '300px',
+        background: 'radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 70%)',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+      }} />
+
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '60px 24px 80px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        alignItems: 'center',
+        gap: '60px',
+      }}>
+        {/* Left Content */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Badge */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', width: 'fit-content' }}>
+            <span style={{
+              background: '#ffffff',
+              border: '1.5px solid #F97316',
+              color: '#F97316',
+              padding: '6px 16px',
+              borderRadius: '50px',
+              fontSize: '13px',
+              fontWeight: '600',
+              letterSpacing: '0.3px',
+            }}>
+              RUANG BELAJAR DIGITAL MASA KINI !
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h1 style={{
+            fontFamily: "'Fredoka', var(--font-fredoka), sans-serif",
+            fontSize: '54px',
+            fontWeight: '700',
+            lineHeight: '1.15',
+            margin: '0',
+          }}>
+            {/* "Belajar" → #0F766E, "Lebih Seru," → #F97316 */}
+            <span style={{ color: '#0F766E' }}>Belajar </span>
+            <span style={{ color: '#F97316' }}>Lebih Seru,</span>
+            <br />
+            {/* "Pintar" → #0F766E, "Lebih Cepat!" → #F97316 */}
+            <span style={{ color: '#0F766E' }}>Pintar </span>
+            <span style={{ color: '#F97316' }}>Lebih Cepat!</span>
+          </h1>
+
+          {/* Description */}
+          <p style={{
+            fontSize: '17px',
+            color: '#71717A',
+            lineHeight: '1.7',
+            maxWidth: '480px',
+            margin: '0',
+          }}>
+            Platform belajar interaktif dan lengkap, mulai dari course, ringkasan,
+            latihan soal, latihan coding, dan kuis seru bareng Circle Pintar!
+          </p>
+
+          {/* CTA Button */}
+          <div>
+            <Link href="/course" className="hero-cta" style={{ border: '2px solid #F97316' }}>
+              Belajar Sekarang
+              {/* Circle putih bulat di kanan */}
+              <span style={{
+                width: '36px',
+                height: '36px',
+                background: '#ffffff',
+                borderRadius: '50%',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <span className="material-icons" style={{ fontSize: '20px', color: '#0F766E' }}>arrow_forward</span>
+              </span>
+            </Link>
+          </div>
+
+          {/* Stats */}
+          {/* <div style={{ display: 'flex', gap: '32px', paddingTop: '8px' }}>
+            {[
+              { number: '10K+', label: 'Siswa Aktif' },
+              { number: '200+', label: 'Kelas Tersedia' },
+              { number: '4.9⭐', label: 'Rating Rata-rata' },
+            ].map((stat, i) => (
+              <div key={i}>
+                <div style={{ fontSize: '22px', fontWeight: '800', color: '#1BAA8A', fontFamily: 'var(--font-fredoka)' }}>{stat.number}</div>
+                <div style={{ fontSize: '13px', color: '#71717A', fontWeight: '500' }}>{stat.label}</div>
+              </div>
+            ))}
+          </div> */}
+        </div>
+
+        {/* Right Illustration */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+          <div className="animate-float" style={{
+            background: 'linear-gradient(135deg, rgba(27,170,138,0.08), rgba(249,115,22,0.06))',
+            borderRadius: '40% 60% 60% 40% / 40% 40% 60% 60%',
+            padding: '20px',
+          }}>
+            <Image
+              src="/hero-section.png"
+              alt="Ilustrasi Belajar Circle Pintar"
+              width={720}
+              height={580}
+              priority
+              className="hero-illustration"
+              style={{ borderRadius: '20px', objectFit: 'contain' }}
+            />
+          </div>
+
+          {/* Floating badge */}
+          <div style={{
+            position: 'absolute',
+            bottom: '30px',
+            left: '-20px',
+            background: 'white',
+            borderRadius: '16px',
+            padding: '12px 18px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}>
+            {/* <span style={{ fontSize: '28px' }}>🏆</span>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: '#121212' }}>Juara Kelas</div>
+              <div style={{ fontSize: '11px', color: '#71717A' }}>dengan Circle Pintar</div>
+            </div> */}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
