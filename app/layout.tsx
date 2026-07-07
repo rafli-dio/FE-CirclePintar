@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter, Nunito } from "next/font/google";
+import { Inter, Fredoka } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -11,9 +11,9 @@ const inter = Inter({
   display: 'swap',
 });
 
-const nunito = Nunito({ 
+const fredoka = Fredoka({ 
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: '--font-fredoka',
   display: 'swap',
 });
@@ -37,7 +37,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`${inter.variable} ${nunito.variable} antialiased`}>
+      <body className={`${inter.variable} ${fredoka.variable} antialiased`}>
         <Navbar />
         {children}
         <Footer />
