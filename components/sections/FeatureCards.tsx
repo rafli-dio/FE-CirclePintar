@@ -4,31 +4,23 @@ import Image from 'next/image';
 const features = [
   {
     icon: 'menu_book',
-    color: '#1BAA8A',
-    bgColor: 'rgba(27,170,138,0.1)',
     title: 'Kurikulum Terarah',
-    description: 'Materi terstruktur dan terukur mulai dari materi dasar hingga lanjut sesuai kurikulum terbaru.',
+    description: 'Materi disusun rapi sesuai standar akademis agar belajarmu lebih fokus dan tidak membuang waktu.',
   },
   {
-    icon: 'emoji_emotions',
-    color: '#6366F1',
-    bgColor: 'rgba(99,102,241,0.1)',
+    icon: 'timer',
     title: 'Belajar Anti Bosan',
-    description: 'Materi interaktif dikemas secara seru agar belajar tidak membosankan dan selalu semangat.',
+    description: 'Materi disusun rapi sesuai standar akademis agar belajarmu lebih fokus dan tidak membuang waktu.',
   },
   {
-    icon: 'trending_up',
-    color: '#F97316',
-    bgColor: 'rgba(249,115,22,0.1)',
-    title: 'Pantau Progressmu',
-    description: 'Tersedia progress tracker canggih yang membantu memantau perkembangan belajarmu setiap hari.',
+    icon: 'show_chart',
+    title: 'Pantau Progresmu',
+    description: 'Tersedia fitur progress bar dan analitik untuk memastikan tidak ada materi yang terlewat.',
   },
   {
-    icon: 'military_tech',
-    color: '#EF4444',
-    bgColor: 'rgba(239,68,68,0.1)',
+    icon: 'sports_esports',
     title: 'Gamifikasi & Reward',
-    description: 'Kerjakan soal atau tantangan di Circle Pintar untuk kumpulkan badge, koin, dan reward seru!',
+    description: 'Kumpulkan poin dan XP setiap kali kamu menyelesaikan modul. Belajar jadi terasa seru seperti sedang bermain game!',
   },
 ];
 
@@ -40,19 +32,19 @@ const FeatureCards = () => {
         margin: '0 auto',
         padding: '0 24px',
       }}>
-        {/* Header centered */}
+        {/* Header left-aligned */}
         <div style={{
-          textAlign: 'center',
-          marginBottom: '52px',
+          textAlign: 'left',
+          marginBottom: '24px',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           gap: '16px',
         }}>
           <span style={{
-            background: 'linear-gradient(135deg, rgba(27,170,138,0.12), rgba(27,170,138,0.06))',
-            border: '1px solid rgba(27,170,138,0.25)',
-            color: '#0D7A62',
+            background: '#ffffff',
+            border: '1.5px solid #F97316',
+            color: '#F97316',
             padding: '6px 16px',
             borderRadius: '50px',
             fontSize: '13px',
@@ -66,75 +58,82 @@ const FeatureCards = () => {
             fontFamily: 'var(--font-fredoka)',
             fontSize: '40px',
             fontWeight: '700',
-            color: '#121212',
+            color: '#0F766E',
             margin: '0',
             lineHeight: '1.2',
           }}>
-            Kenapa Harus Belajar di{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              CirclePintar?
-            </span>
+            Kenapa Harus Belajar di CirclePintar?
           </h2>
+
+          <p style={{
+            fontSize: '15px',
+            color: '#71717A',
+            lineHeight: '1.6',
+            margin: '0',
+            maxWidth: '700px',
+          }}>
+            Circle Pintar hadir sebagai solusi platform belajar digital yang dirancang khusus untuk memenuhi kebutuhan pelajar masa kini. Temukan ekosistem belajar mandiri yang efisien melalui berbagai keunggulan utama yang kami tawarkan untuk mendukung kesuksesan akademismu.
+          </p>
         </div>
 
         {/* Two-column layout: features grid + illustration */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
+          gridTemplateColumns: '1.2fr 0.8fr', // Kiri (Fitur), Kanan (Gambar)
           gap: '64px',
-          alignItems: 'center',
+          alignItems: 'flex-start',
         }}>
-          {/* Left: 2x2 feature grid */}
+          {/* Left: feature list (2 baris/kolom) */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            gap: '20px',
+            gap: '32px 24px',
           }}>
             {features.map((feature, index) => (
-              <div
-                key={index}
-                className="feature-card"
-              >
+              <div key={index} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
+                {/* Icon Container */}
                 <div style={{
-                  width: '52px',
-                  height: '52px',
-                  background: feature.bgColor,
+                  minWidth: '64px',
+                  height: '64px',
+                  background: 'rgba(249,115,22,0.1)',
+                  border: '2px solid #F97316',
                   borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  flexShrink: 0,
                 }}>
-                  <span className="material-icons" style={{ fontSize: '26px', color: feature.color }}>
+                  <span className="material-icons" style={{ fontSize: '32px', color: '#F97316' }}>
                     {feature.icon}
                   </span>
                 </div>
-                <h4 style={{
-                  fontSize: '16px',
-                  fontWeight: '700',
-                  color: '#121212',
-                  margin: '0',
-                }}>
-                  {feature.title}
-                </h4>
-                <p style={{
-                  fontSize: '14px',
-                  color: '#71717A',
-                  lineHeight: '1.6',
-                  margin: '0',
-                }}>
-                  {feature.description}
-                </p>
+                
+                {/* Text Container */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <h4 style={{
+                    fontFamily: 'var(--font-fredoka), sans-serif',
+                    fontSize: '22px',
+                    fontWeight: '700',
+                    color: '#0F766E',
+                    margin: '0',
+                  }}>
+                    {feature.title}
+                  </h4>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#71717A',
+                    lineHeight: '1.6',
+                    margin: '0',
+                  }}>
+                    {feature.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
 
           {/* Right: Illustration */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-150px' }}>
             <div style={{
               background: 'linear-gradient(135deg, #FFF7ED, #FEF3C7)',
               borderRadius: '40px',
@@ -144,7 +143,7 @@ const FeatureCards = () => {
               alignItems: 'center',
             }}>
               <Image
-                src="/why-illustration.png"
+                src="/why-section.png"
                 alt="Kenapa Belajar di Circle Pintar"
                 width={380}
                 height={380}
