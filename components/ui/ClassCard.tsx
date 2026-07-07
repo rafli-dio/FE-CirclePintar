@@ -5,19 +5,23 @@ import Link from 'next/link';
 
 interface ClassCardProps {
   image: string;
-  category: string;
-  categoryColor: string;
   title: string;
-  rating: number;
-  students: number;
-  label?: string;
+  author: string;
+  description: string;
+  progress: number;
+  totalMateri: number;
 }
 
-const ClassCard: React.FC<ClassCardProps> = ({ image, category, categoryColor, title, rating, students, label }) => {
+const ClassCard: React.FC<ClassCardProps> = ({ image, title, author, description, progress, totalMateri }) => {
   return (
-    <div className="class-card">
-      {/* Image */}
-      <div style={{ position: 'relative', width: '100%', height: '180px', overflow: 'hidden', background: '#f5f5f5' }}>
+    <div className="class-card" style={{
+      padding: '12px',
+      gap: '12px',
+      border: '2px solid #0F766E',
+      borderRadius: '24px',
+    }}>
+      {/* Image Container */}
+      <div style={{ position: 'relative', width: '100%', height: '160px', borderRadius: '16px', overflow: 'hidden' }}>
         <Image
           src={image}
           alt={title}
@@ -25,77 +29,73 @@ const ClassCard: React.FC<ClassCardProps> = ({ image, category, categoryColor, t
           style={{ objectFit: 'cover' }}
           sizes="(max-width: 768px) 100vw, 33vw"
         />
-        {label && (
-          <span style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            background: 'linear-gradient(135deg, #F97316, #ea6c0f)',
-            color: 'white',
-            fontSize: '11px',
-            fontWeight: '700',
-            padding: '4px 12px',
-            borderRadius: '50px',
-            letterSpacing: '0.5px',
-          }}>
-            {label}
-          </span>
-        )}
-      </div>
-
-      {/* Content */}
-      <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
-        {/* Category badge */}
+        {/* Badge "10 Materi" */}
         <span style={{
-          background: categoryColor,
+          position: 'absolute',
+          top: '12px',
+          right: '12px',
+          background: '#0F766E',
           color: 'white',
           fontSize: '11px',
           fontWeight: '700',
-          padding: '4px 10px',
+          padding: '6px 14px',
           borderRadius: '50px',
-          width: 'fit-content',
-          letterSpacing: '0.5px',
         }}>
-          {category}
+          {totalMateri} Materi
         </span>
+      </div>
 
-        <h4 style={{
-          fontSize: '16px',
-          fontWeight: '700',
-          color: '#121212',
-          margin: '0',
-          lineHeight: '1.4',
-        }}>
-          {title}
-        </h4>
+      {/* Content */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '0 4px' }}>
+        <h4 style={{ fontFamily: 'var(--font-fredoka), sans-serif', fontSize: '17px', fontWeight: '700', color: '#0F766E', margin: '0' }}>{title}</h4>
+        <p style={{ fontSize: '11px', color: '#9CA3AF', margin: '0', fontWeight: '500' }}>{author}</p>
+        <p style={{ fontSize: '11px', color: '#71717A', margin: '8px 0 0 0', lineHeight: '1.4' }}>{description}</p>
+      </div>
 
-        {/* Footer */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingTop: '12px',
-          marginTop: 'auto',
-          borderTop: '1px solid #f0f0f0',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span style={{ color: '#F59E0B', fontSize: '16px' }}>★</span>
-            <span style={{ fontSize: '14px', fontWeight: '700', color: '#121212' }}>{rating.toFixed(1)}</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#71717A' }}>
-            <span className="material-icons" style={{ fontSize: '16px', color: '#1BAA8A' }}>groups</span>
-            <span style={{ fontSize: '13px', fontWeight: '500' }}>{students.toLocaleString()} Siswa</span>
-          </div>
+      {/* Buttons: Modul, Kuis, Lihat Kelas */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px', marginTop: '4px' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          {/* Modul Button */}
+          <Link href="#" style={{
+            display: 'flex', alignItems: 'center', gap: '4px',
+            background: '#0F766E', color: 'white', padding: '6px 12px', borderRadius: '50px', fontSize: '11px', fontWeight: '600', textDecoration: 'none'
+          }}>
+            Modul
+            <span className="material-icons" style={{ fontSize: '14px' }}>menu_book</span>
+          </Link>
+          {/* Kuis Button */}
+          <Link href="#" style={{
+            display: 'flex', alignItems: 'center', gap: '4px',
+            background: '#0F766E', color: 'white', padding: '6px 12px', borderRadius: '50px', fontSize: '11px', fontWeight: '600', textDecoration: 'none'
+          }}>
+            Kuis
+            <span className="material-icons" style={{ fontSize: '14px' }}>visibility</span>
+          </Link>
         </div>
-
-        {/* Enroll button */}
-        <Link
-          href="#"
-          className="class-card-btn"
-        >
-          Mulai Belajar
-          <span className="material-icons" style={{ fontSize: '16px' }}>arrow_forward</span>
+        
+        {/* Lihat Kelas Button */}
+        <Link href="#" style={{
+          display: 'flex', alignItems: 'center', gap: '8px',
+          background: '#62A8A0', color: 'white', padding: '4px 4px 4px 14px', borderRadius: '50px', fontSize: '11px', fontWeight: '700', textDecoration: 'none'
+        }}>
+          Lihat Kelas
+          <span style={{
+            width: '22px', height: '22px', background: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+          }}>
+            <span className="material-icons" style={{ fontSize: '14px', color: '#62A8A0' }}>arrow_forward</span>
+          </span>
         </Link>
+      </div>
+
+      {/* Progress Bar */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 4px', marginTop: '6px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '12px', fontWeight: '800', color: '#0F766E' }}>Progress</span>
+          <span style={{ fontSize: '10px', color: '#9CA3AF', fontWeight: '600' }}>{progress}/{totalMateri} Materi Selesai</span>
+        </div>
+        <div style={{ width: '100%', height: '6px', background: '#E4E4E7', borderRadius: '50px', overflow: 'hidden' }}>
+          <div style={{ width: `${(progress / totalMateri) * 100}%`, height: '100%', background: '#0F766E', borderRadius: '50px' }}></div>
+        </div>
       </div>
     </div>
   );
