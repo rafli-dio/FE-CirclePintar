@@ -4,28 +4,55 @@ import { useState } from 'react';
 import TestimonialCard from '../ui/TestimonialCard';
 
 const testimonials = [
+  // Page 1
   {
-    quote: 'Nggak bosen dengerin materi. Materi interaktif juga kuis yang bikin belajar jadi seru banget bareng Circle Pintar! Nilai saya naik drastis!',
-    name: 'Kania Rahayu',
-    avatar: '/avatar-kania.png',
-    title: 'Siswa Kelas 10, SMAN 1 Jakarta',
+    quote: 'Penjelasan materi Biologinya gampang banget dipahami! <strong>Animasi</strong> dan <strong>visual</strong> di modulnya bikin materi yang tadinya ribet jadi langsung nempel di kepala.',
+    name: 'Andi Setiawan Nugroho',
+    avatar: '/avatar-andi.png',
+    title: 'Siswa Kelas 10',
   },
   {
-    quote: 'Materi terstruktur dan gampang dimengerti. Progress belajarnya juga bisa kepantau terus. Paling suka fitur gamifikasi dan reward-nya!',
-    name: 'Arief Rahadian',
-    avatar: '/avatar-arief.png',
-    title: 'Siswa Kelas 11, SMAN 3 Bandung',
+    quote: 'Suka banget sama fitur <strong>progress bar-nya!</strong> Aku jadi tahu bab mana yang belum selesai dibaca, jadi pas mau ujian nggak ada materi yang kelewat.',
+    name: 'Rara Amelia',
+    avatar: '/avatar-rara.png',
+    title: 'Siswa Kelas 11',
   },
   {
-    quote: 'Platform belajar yang paling beda dari yang lain. Bener-bener anti bosan dan bikin ketagihan belajar. Highly recommended!',
-    name: 'Fitriani',
-    avatar: '/avatar-fitriani.png',
-    title: 'Siswa Kelas 12, SMAN 2 Surabaya',
+    quote: 'Biasanya malas banget kalau disuruh baca rangkuman lewat PDF, tapi kuis <strong>interaktif</strong> di Circle Pintar <strong>seru pol</strong>. Belajar berasa kayak lagi main game!',
+    name: 'Farel Putra',
+    avatar: '/avatar-farel.png',
+    title: 'Siswa Kelas 12',
+  },
+  // Page 2
+  {
+    quote: 'Materi terstruktur dan gampang dimengerti. <strong>Fitur gamifikasi</strong> bikin aku makin semangat buat ngumpulin koin belajar setiap hari.',
+    name: 'Dinda Kirana',
+    avatar: '/avatar-dinda.png',
+    title: 'Siswa Kelas 11',
+  },
+  {
+    quote: 'Belajar Matematika yang awalnya bikin pusing, sekarang jadi seru banget karena banyak <strong>contoh soal interaktif</strong>. Keren banget Circle Pintar!',
+    name: 'Bima Sakti',
+    avatar: '/avatar-bima.png',
+    title: 'Siswa Kelas 10',
+  },
+  {
+    quote: 'Tampilan aplikasinya bagus dan <strong>user-friendly</strong>. Paling suka karena materinya selalu update dengan kurikulum terbaru.',
+    name: 'Cindy Pramesti',
+    avatar: '/avatar-cindy.png',
+    title: 'Siswa Kelas 12',
   },
 ];
 
 const Testimonials = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(testimonials.length / itemsPerPage);
+
+  const displayedTestimonials = testimonials.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
 
   return (
     <section style={{ background: '#f8fffe', padding: '80px 0' }}>
@@ -37,12 +64,12 @@ const Testimonials = () => {
           alignItems: 'center',
           textAlign: 'center',
           gap: '16px',
-          marginBottom: '52px',
+          marginBottom: '24px',
         }}>
           <span style={{
-            background: 'linear-gradient(135deg, rgba(27,170,138,0.12), rgba(27,170,138,0.06))',
-            border: '1px solid rgba(27,170,138,0.25)',
-            color: '#0D7A62',
+            background: '#ffffff',
+            border: '1.5px solid #F97316',
+            color: '#F97316',
             padding: '6px 16px',
             borderRadius: '50px',
             fontSize: '13px',
@@ -56,20 +83,13 @@ const Testimonials = () => {
             fontFamily: 'var(--font-fredoka)',
             fontSize: '40px',
             fontWeight: '700',
-            color: '#121212',
             margin: '0',
             lineHeight: '1.2',
           }}>
-            Apa Kata{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              Mereka
-            </span>{' '}
-            Yang Sudah Bergabung
+            <span style={{ color: '#0F766E' }}>Apa Kata</span>{' '}
+            <span style={{ color: '#F97316' }}>Mereka</span>{' '}
+            <span style={{ color: '#0F766E' }}>Yang Sudah</span>{' '}
+            <span style={{ color: '#F97316' }}>Bergabung</span>
           </h2>
 
           <p style={{
@@ -91,12 +111,16 @@ const Testimonials = () => {
           gap: '24px',
           marginBottom: '40px',
         }}>
-          {testimonials.map((t, index) => (
-            <TestimonialCard key={index} {...t} isActive={index === activeIndex} />
+          {displayedTestimonials.map((t, index) => (
+            <TestimonialCard 
+              key={index} 
+              {...t} 
+              isActive={index === 1} // Kartu yang di tengah (index 1 dari 3) selalu active (warna hijau)
+            />
           ))}
         </div>
 
-        {/* Carousel controls */}
+        {/* Carousel controls (Pagination) */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -104,13 +128,13 @@ const Testimonials = () => {
           gap: '16px',
         }}>
           <button
-            onClick={() => setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
+            onClick={() => setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)}
             style={{
               width: '40px',
               height: '40px',
               borderRadius: '50%',
-              background: activeIndex === 0 ? '#f0f0f0' : 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
-              color: activeIndex === 0 ? '#71717A' : 'white',
+              background: currentPage === 0 ? '#f0f0f0' : 'linear-gradient(135deg, #1BAA8A, #0D7A62)',
+              color: currentPage === 0 ? '#71717A' : 'white',
               border: 'none',
               cursor: 'pointer',
               display: 'flex',
@@ -123,15 +147,15 @@ const Testimonials = () => {
           </button>
 
           <div style={{ display: 'flex', gap: '8px' }}>
-            {testimonials.map((_, i) => (
+            {Array.from({ length: totalPages }).map((_, i) => (
               <button
                 key={i}
-                onClick={() => setActiveIndex(i)}
+                onClick={() => setCurrentPage(i)}
                 style={{
-                  width: i === activeIndex ? '28px' : '10px',
+                  width: i === currentPage ? '28px' : '10px',
                   height: '10px',
                   borderRadius: '50px',
-                  background: i === activeIndex ? '#1BAA8A' : '#D1D5DB',
+                  background: i === currentPage ? '#1BAA8A' : '#D1D5DB',
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -142,7 +166,7 @@ const Testimonials = () => {
           </div>
 
           <button
-            onClick={() => setActiveIndex((prev) => (prev + 1) % testimonials.length)}
+            onClick={() => setCurrentPage((prev) => (prev + 1) % totalPages)}
             style={{
               width: '40px',
               height: '40px',
