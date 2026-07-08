@@ -6,14 +6,10 @@ import Link from 'next/link';
 const FeatureSection = () => {
   return (
     <section style={{ background: '#ffffff', padding: '80px 0' }}>
-      <div style={{
+      <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10 md:gap-[72px]" style={{
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '0 24px',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'center',
-        gap: '72px',
       }}>
         {/* Left: Phone illustration */}
         <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
@@ -34,7 +30,7 @@ const FeatureSection = () => {
         </div>
 
         {/* Right: Content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="flex flex-col items-center text-center md:items-start md:text-left gap-6">
           {/* Badge */}
           <span style={{
             background: '#ffffff',
@@ -50,9 +46,8 @@ const FeatureSection = () => {
             TENTANG CIRCLE PINTAR
           </span>
 
-          <h2 style={{
+          <h2 className="text-[32px] md:text-[40px]" style={{
             fontFamily: 'var(--font-fredoka)',
-            fontSize: '40px',
             fontWeight: '700',
             lineHeight: '1.2',
             margin: '0',

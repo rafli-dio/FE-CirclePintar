@@ -79,9 +79,8 @@ const ClassListing = () => {
             BELAJAR DI CIRCLE PINTAR
           </span>
 
-          <h2 style={{
+          <h2 className="text-[32px] md:text-[40px]" style={{
             fontFamily: 'var(--font-fredoka)',
-            fontSize: '40px',
             fontWeight: '700',
             margin: '0',
             lineHeight: '1.2',
@@ -106,11 +105,7 @@ const ClassListing = () => {
         </div>
 
         {/* Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '24px',
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {classes.map((cls, index) => (
             <ClassCard key={index} {...cls} />
           ))}

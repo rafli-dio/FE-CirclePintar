@@ -27,17 +27,13 @@ const HeroSection = () => {
         pointerEvents: 'none',
       }} />
 
-      <div style={{
+      <div className="flex flex-col-reverse md:grid md:grid-cols-2 items-center gap-10 md:gap-[60px]" style={{
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '60px 24px 80px',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'center',
-        gap: '60px',
       }}>
         {/* Left Content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left gap-6">
           {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', width: 'fit-content' }}>
             <span style={{
@@ -55,9 +51,8 @@ const HeroSection = () => {
           </div>
 
           {/* Heading */}
-          <h1 style={{
+          <h1 className="text-[40px] md:text-[54px]" style={{
             fontFamily: "'Fredoka', var(--font-fredoka), sans-serif",
-            fontSize: '54px',
             fontWeight: '700',
             lineHeight: '1.15',
             margin: '0',

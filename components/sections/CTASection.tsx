@@ -3,11 +3,9 @@ import Link from 'next/link';
 
 const CTASection = () => {
   return (
-    <section style={{ padding: '0 24px 80px', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{
+    <section className="px-4 md:px-6 mx-auto max-w-[1200px] pb-16 md:pb-20">
+      <div className="p-8 md:p-[60px_40px] rounded-none md:rounded-[24px]" style={{
         background: 'linear-gradient(135deg, #1BAA8A 0%, #0D7A62 100%)',
-        borderRadius: '24px',
-        padding: '60px 40px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -41,9 +39,8 @@ const CTASection = () => {
         {/* Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', position: 'relative', zIndex: 1, alignItems: 'center' }}>
           
-          <h2 style={{
+          <h2 className="text-[32px] md:text-[44px]" style={{
             fontFamily: 'var(--font-fredoka), sans-serif',
-            fontSize: '44px',
             fontWeight: '700',
             color: '#ffffff',
             margin: '0',

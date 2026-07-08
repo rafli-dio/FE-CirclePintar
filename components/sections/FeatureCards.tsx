@@ -77,18 +77,9 @@ const FeatureCards = () => {
         </div>
 
         {/* Two-column layout: features grid + illustration */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1.2fr 0.8fr', // Kiri (Fitur), Kanan (Gambar)
-          gap: '64px',
-          alignItems: 'flex-start',
-        }}>
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-[64px] items-start">
           {/* Left: feature list (2 baris/kolom) */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '32px 24px',
-          }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-y-[32px] lg:gap-x-[24px]">
             {features.map((feature, index) => (
               <div key={index} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
                 {/* Icon Container */}
@@ -133,7 +124,7 @@ const FeatureCards = () => {
           </div>
 
           {/* Right: Illustration */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-150px' }}>
+          <div className="flex justify-center lg:justify-end mt-8 lg:-mt-[150px]">
             <div style={{
               background: 'linear-gradient(135deg, #FFF7ED, #FEF3C7)',
               borderRadius: '40px',
