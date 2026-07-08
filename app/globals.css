@@ -155,9 +155,7 @@ body {
 .social-icon-btn {
   width: 38px;
   height: 38px;
-  background: rgba(27,170,138,0.08);
-  border: 1px solid rgba(27,170,138,0.2);
-  border-radius: 10px;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,9 +164,8 @@ body {
   color: #1BAA8A;
 }
 .social-icon-btn:hover {
-  background: #1BAA8A;
-  color: white;
-  border-color: #1BAA8A;
+  background: transparent;
+  color: #0D7A62;
 }
 
 /* Hero CTA Link */
