@@ -9,14 +9,10 @@ const Footer = () => {
       borderTop: '1px solid #f0f0f0',
       padding: '64px 0 32px',
     }}>
-      <div style={{
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 lg:gap-12 mb-12" style={{
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '0 24px',
-        display: 'grid',
-        gridTemplateColumns: '2fr 1fr 1fr 1.5fr',
-        gap: '48px',
-        marginBottom: '48px',
       }}>
         {/* Brand */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -39,7 +40,6 @@ const Navbar = () => {
       >
         {/* Logo */}
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* Taruh file logo Anda dengan nama "logo.png" di dalam folder public/ */}
           <Image
             src="/logo-circle-pintar.png"
             alt="Circle Pintar Logo"
@@ -50,8 +50,17 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* Nav Links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '36px' }}>
+        {/* Hamburger Icon for Mobile */}
+        <button 
+          className="md:hidden flex items-center justify-center p-2 text-[#1BAA8A]"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          <span className="material-icons text-3xl">{isMobileMenuOpen ? 'close' : 'menu'}</span>
+        </button>
+
+        {/* Desktop Nav Links & CTA */}
+        <div className="hidden md:flex items-center gap-9">
           {['Home', 'Course', 'About', 'Feature'].map((item) => (
             <Link
               key={item}
@@ -62,13 +71,36 @@ const Navbar = () => {
               {item}
             </Link>
           ))}
+          <Link href="/daftar" className="nav-cta">
+            Masuk
+            <span className="material-icons" style={{ fontSize: '18px' }}>person</span>
+          </Link>
         </div>
 
-        {/* CTA Button */}
-        <Link href="/daftar" className="nav-cta">
-          Masuk
-          <span className="material-icons" style={{ fontSize: '18px' }}>person</span>
-        </Link>
+        {/* Mobile Dropdown Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-[70px] left-0 w-full bg-white shadow-lg flex flex-col items-center py-6 gap-6 z-40 border-t border-gray-100">
+            {['Home', 'Course', 'About', 'Feature'].map((item) => (
+              <Link
+                key={item}
+                href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                className="nav-link"
+                style={{ color: '#0F766E', fontSize: '16px' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item}
+              </Link>
+            ))}
+            <Link 
+              href="/daftar" 
+              className="nav-cta"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Masuk
+              <span className="material-icons" style={{ fontSize: '18px' }}>person</span>
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -1,6 +1,6 @@
 'use client';
 // src/components/sections/Testimonials.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TestimonialCard from '../ui/TestimonialCard';
 
 const testimonials = [
@@ -46,12 +46,30 @@ const testimonials = [
 
 const Testimonials = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 3;
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setItemsPerPage(1);
+      } else {
+        setItemsPerPage(3);
+      }
+    };
+    
+    handleResize(); // set initial value
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const totalPages = Math.ceil(testimonials.length / itemsPerPage);
+  const validCurrentPage = Math.min(currentPage, Math.max(0, totalPages - 1));
 
   const displayedTestimonials = testimonials.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
+    validCurrentPage * itemsPerPage,
+    (validCurrentPage + 1) * itemsPerPage
   );
 
   return (
@@ -79,9 +97,8 @@ const Testimonials = () => {
             CERITA SUKSES
           </span>
 
-          <h2 style={{
+          <h2 className="text-[32px] md:text-[40px]" style={{
             fontFamily: 'var(--font-fredoka)',
-            fontSize: '40px',
             fontWeight: '700',
             margin: '0',
             lineHeight: '1.2',
@@ -105,19 +122,22 @@ const Testimonials = () => {
         </div>
 
         {/* Cards Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '24px',
-          marginBottom: '40px',
-        }}>
-          {displayedTestimonials.map((t, index) => (
-            <TestimonialCard 
-              key={index} 
-              {...t} 
-              isActive={index === 1} // Kartu yang di tengah (index 1 dari 3) selalu active (warna hijau)
-            />
-          ))}
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-6 mb-10 pb-4 md:pb-0" style={{ scrollbarWidth: 'none', minHeight: '350px' }}>
+          {!isMounted 
+            ? testimonials.slice(0, 3).map((t, index) => (
+                <div key={`ssr-${index}`} className="w-full shrink-0">
+                  <TestimonialCard {...t} isActive={index === 1} />
+                </div>
+              ))
+            : displayedTestimonials.map((t, index) => (
+                <div key={`client-${index}`} className="w-full shrink-0">
+                  <TestimonialCard 
+                    {...t} 
+                    isActive={itemsPerPage === 1 || index === 1} // Di layar kecil selalu aktif, di PC kartu tengah (index 1) yang aktif
+                  />
+                </div>
+              ))
+          }
         </div>
 
         {/* Carousel controls (Pagination) */}
