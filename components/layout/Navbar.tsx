@@ -3,10 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -61,16 +63,24 @@ const Navbar = () => {
 
         {/* Desktop Nav Links & CTA */}
         <div className="hidden md:flex items-center gap-9">
-          {['Home', 'Course', 'About', 'Feature'].map((item) => (
-            <Link
-              key={item}
-              href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-              className="nav-link"
-              style={{ color: '#0F766E' }}
-            >
-              {item}
-            </Link>
-          ))}
+          {['Home', 'Course', 'About', 'Feature'].map((item) => {
+            const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={item}
+                href={href}
+                className={`nav-link ${isActive ? 'font-bold' : 'font-medium'}`}
+                style={{ 
+                  color: isActive ? '#F97316' : '#0F766E',
+                  borderBottom: isActive ? '2px solid #F97316' : 'none',
+                  paddingBottom: isActive ? '4px' : '0'
+                }}
+              >
+                {item}
+              </Link>
+            );
+          })}
           <Link href="/daftar" className="nav-cta">
             Masuk
             <span className="material-icons" style={{ fontSize: '18px' }}>person</span>
@@ -80,17 +90,26 @@ const Navbar = () => {
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-[70px] left-0 w-full bg-white shadow-lg flex flex-col items-center py-6 gap-6 z-40 border-t border-gray-100">
-            {['Home', 'Course', 'About', 'Feature'].map((item) => (
-              <Link
-                key={item}
-                href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                className="nav-link"
-                style={{ color: '#0F766E', fontSize: '16px' }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item}
-              </Link>
-            ))}
+            {['Home', 'Course', 'About', 'Feature'].map((item) => {
+              const href = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
+              const isActive = pathname === href;
+              return (
+                <Link
+                  key={item}
+                  href={href}
+                  className={`nav-link ${isActive ? 'font-bold' : 'font-medium'}`}
+                  style={{ 
+                    color: isActive ? '#F97316' : '#0F766E', 
+                    fontSize: '16px',
+                    borderBottom: isActive ? '2px solid #F97316' : 'none',
+                    paddingBottom: isActive ? '4px' : '0'
+                  }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              );
+            })}
             <Link 
               href="/daftar" 
               className="nav-cta"
