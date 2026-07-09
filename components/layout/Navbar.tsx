@@ -16,6 +16,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (pathname === '/login') {
+    return null;
+  }
+
   return (
     <nav
       style={{
@@ -81,7 +85,7 @@ const Navbar = () => {
               </Link>
             );
           })}
-          <Link href="/daftar" className="nav-cta">
+          <Link href="/login" className="nav-cta">
             Masuk
             <span className="material-icons" style={{ fontSize: '18px' }}>person</span>
           </Link>
@@ -111,7 +115,7 @@ const Navbar = () => {
               );
             })}
             <Link 
-              href="/daftar" 
+              href="/login" 
               className="nav-cta"
               onClick={() => setIsMobileMenuOpen(false)}
             >
