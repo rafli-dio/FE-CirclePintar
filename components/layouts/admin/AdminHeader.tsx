@@ -11,8 +11,7 @@ export default function AdminHeader({ setSidebarOpen }: AdminHeaderProps) {
   const router = useRouter();
   const [userName, setUserName] = useState('Super Admin');
 
-  useEffect(() => {
-    // Ambil nama dari user_data
+  const loadUser = () => {
     const data = localStorage.getItem('user_data');
     if (data) {
       try {
@@ -22,6 +21,14 @@ export default function AdminHeader({ setSidebarOpen }: AdminHeaderProps) {
         console.error('Failed to parse user data');
       }
     }
+  };
+
+  useEffect(() => {
+    loadUser();
+    
+    // Dengarkan kejadian pembaruan profil kustom dari tab yang sama
+    window.addEventListener('user-profile-updated', loadUser);
+    return () => window.removeEventListener('user-profile-updated', loadUser);
   }, []);
 
   const handleLogout = async () => {

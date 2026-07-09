@@ -1,32 +1,70 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
+import axios from '@/lib/axios';
+
 export default function SettingsPage() {
   const [user, setUser] = useState<any>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    password: '',
+    password_confirmation: ''
+  });
 
   useEffect(() => {
     // Simulasi pengambilan profil pengguna dari penyimpanan lokal atau konteks aplikasi
-    // Biasanya ini di set saat login: localStorage.setItem('auth_user', JSON.stringify(res.data.data));
-    const storedUser = localStorage.getItem('auth_user');
+    // Biasanya ini di set saat login: localStorage.setItem('user_data', JSON.stringify(res.data.data));
+    const storedUser = localStorage.getItem('user_data');
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
+        const parsed = JSON.parse(storedUser);
+        setUser(parsed);
+        setFormData(prev => ({ ...prev, name: parsed.name }));
       } catch (e) {
         // Abaikan
       }
-    } else {
-      // Data dummy sebagai placeholder profil
-      setUser({
-        name: 'Super Admin',
-        email: 'admin@circlepintar.id',
-        role: 'super_admin'
-      });
     }
   }, []);
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Profil berhasil diperbarui secara lokal. (Integrasi API spesifik profil belum diaktifkan).');
+    if (!user?.id) return alert('Data sesi profil tidak valid. Silakan login ulang.');
+
+    if (formData.password && formData.password !== formData.password_confirmation) {
+      return alert('Konfirmasi kata sandi baru tidak cocok!');
+    }
+
+    try {
+      setIsSaving(true);
+      const token = localStorage.getItem('auth_token');
+      
+      const payload: any = { name: formData.name };
+      if (formData.password) {
+        payload.password = formData.password;
+        payload.password_confirmation = formData.password_confirmation;
+      }
+
+      const res = await axios.put(`/api/users/${user.id}`, payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const updatedUser = res.data.data;
+      setUser(updatedUser);
+      localStorage.setItem('user_data', JSON.stringify(updatedUser));
+      
+      // Beritahu Header untuk memperbarui sapaan (React Custom Event)
+      window.dispatchEvent(new Event('user-profile-updated'));
+      
+      setFormData(prev => ({ ...prev, password: '', password_confirmation: '' }));
+      alert('Profil Anda berhasil diperbarui di dalam sistem!');
+
+    } catch (error: any) {
+      alert(error.response?.data?.message || 'Gagal memperbarui profil.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -76,7 +114,8 @@ export default function SettingsPage() {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
               <input 
-                type="text" defaultValue={user?.name}
+                type="text" required
+                value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#0F766E] text-gray-800"
               />
             </div>
@@ -84,7 +123,7 @@ export default function SettingsPage() {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Email</label>
               <input 
-                type="email" defaultValue={user?.email} disabled
+                type="email" value={user?.email || ''} disabled
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 bg-gray-50 text-gray-500 cursor-not-allowed"
               />
               <p className="text-xs text-gray-400 mt-2">Email tidak dapat diubah secara langsung demi keamanan. Hubungi teknisi sistem.</p>
@@ -93,7 +132,8 @@ export default function SettingsPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Kata Sandi Baru (Opsional)</label>
               <input 
-                type="password" placeholder="Kosongkan jika tidak diubah"
+                type="password" placeholder="Kosongkan jika tidak diubah" minLength={8}
+                value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#0F766E]"
               />
             </div>
@@ -101,14 +141,18 @@ export default function SettingsPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Kata Sandi Baru</label>
               <input 
-                type="password" placeholder="Ulangi kata sandi baru"
+                type="password" placeholder="Ulangi kata sandi baru" minLength={8}
+                value={formData.password_confirmation} onChange={e => setFormData({...formData, password_confirmation: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#0F766E]"
               />
             </div>
 
             <div className="md:col-span-2 flex justify-end mt-4">
-              <button type="submit" className="bg-[#0F766E] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#0d645d] transition-all shadow-md hover:shadow-lg active:scale-95">
-                Simpan Perubahan
+              <button 
+                type="submit" disabled={isSaving}
+                className="bg-[#0F766E] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#0d645d] transition-all shadow-md hover:shadow-lg active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
               </button>
             </div>
           </form>
