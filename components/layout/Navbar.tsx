@@ -16,6 +16,16 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Sembunyikan Navbar Publik di halaman Auth dan Panel Dashboard
+  if (
+    pathname === '/login' || 
+    pathname?.startsWith('/admin') || 
+    pathname?.startsWith('/teacher') || 
+    pathname?.startsWith('/student')
+  ) {
+    return null;
+  }
+
   return (
     <nav
       style={{
@@ -81,7 +91,7 @@ const Navbar = () => {
               </Link>
             );
           })}
-          <Link href="/daftar" className="nav-cta">
+          <Link href="/login" className="nav-cta">
             Masuk
             <span className="material-icons" style={{ fontSize: '18px' }}>person</span>
           </Link>
@@ -111,7 +121,7 @@ const Navbar = () => {
               );
             })}
             <Link 
-              href="/daftar" 
+              href="/login" 
               className="nav-cta"
               onClick={() => setIsMobileMenuOpen(false)}
             >

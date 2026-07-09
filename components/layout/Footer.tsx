@@ -1,8 +1,16 @@
+'use client';
 // src/components/layout/Footer.tsx
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  if (pathname === '/login') {
+    return null;
+  }
+
   return (
     <footer style={{
       background: '#ffffff',
