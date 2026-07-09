@@ -16,7 +16,13 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (pathname === '/login') {
+  // Sembunyikan Navbar Publik di halaman Auth dan Panel Dashboard
+  if (
+    pathname === '/login' || 
+    pathname?.startsWith('/admin') || 
+    pathname?.startsWith('/teacher') || 
+    pathname?.startsWith('/student')
+  ) {
     return null;
   }
 

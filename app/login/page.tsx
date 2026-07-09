@@ -2,9 +2,61 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import axios from '@/lib/axios';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMsg('');
+
+    try {
+      // 1. Dapatkan CSRF cookie dari Sanctum
+      await axios.get('/sanctum/csrf-cookie');
+
+      // 2. Lakukan request login dan tangkap responsenya
+      const response = await axios.post('/api/auth/login', {
+        email,
+        password,
+      });
+
+      // 3. Ekstrak data dan token
+      const userData = response.data.data;
+      const token = response.data.token;
+      const role = userData.role;
+
+      // 4. Simpan ke local storage agar persisten
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('user_data', JSON.stringify(userData));
+
+      // 5. Redirect berdasarkan role
+      if (role === 'super_admin') {
+        router.push('/admin/dashboard');
+      } else if (role === 'teacher') {
+        router.push('/teacher/dashboard');
+      } else if (role === 'student') {
+        router.push('/student/dashboard');
+      } else {
+        router.push('/'); // Fallback
+      }
+    } catch (error: any) {
+      if (error.response?.status === 422) {
+        setErrorMsg('Email atau Password salah.');
+      } else {
+        setErrorMsg('Terjadi kesalahan pada server.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className="w-full min-h-screen bg-white flex items-center justify-center p-4 md:p-8">
@@ -52,7 +104,14 @@ export default function LoginPage() {
               Login
             </h1>
 
-            <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-6" onSubmit={handleLogin}>
+              
+              {/* Error Message */}
+              {errorMsg && (
+                <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg border border-red-200">
+                  {errorMsg}
+                </div>
+              )}
               
               {/* Email Field */}
               <div className="flex flex-col gap-2">
@@ -65,6 +124,8 @@ export default function LoginPage() {
                     type="email" 
                     placeholder="Contoh@gmail.com" 
                     className="flex-1 bg-transparent border-none outline-none px-3 py-2 text-gray-700 text-[14px] placeholder-gray-400"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -87,6 +148,8 @@ export default function LoginPage() {
                     type={showPassword ? 'text' : 'password'} 
                     placeholder="****************" 
                     className="flex-1 bg-transparent border-none outline-none px-3 py-2 text-gray-700 text-[14px] tracking-widest placeholder-gray-400"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
@@ -95,9 +158,10 @@ export default function LoginPage() {
               {/* Submit Button */}
               <button 
                 type="submit" 
-                className="w-full mt-4 bg-[#0F766E] text-white font-semibold text-lg py-3 rounded-xl border-[3px] border-[#F97316] shadow-md hover:bg-[#0d645d] hover:-translate-y-0.5 transition-all duration-200"
+                disabled={isLoading}
+                className="w-full mt-4 bg-[#0F766E] text-white font-semibold text-lg py-3 rounded-xl border-[3px] border-[#F97316] shadow-md hover:bg-[#0d645d] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Log in
+                {isLoading ? 'Loading...' : 'Log in'}
               </button>
 
             </form>
