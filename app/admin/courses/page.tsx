@@ -15,8 +15,10 @@ export default function CoursesManagementPage() {
   const [formData, setFormData] = useState({ 
     title: '', 
     description: '', 
-    category_id: '' 
+    category_id: '',
+    thumbnail_file: null as File | null,
   });
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
 
   const fetchData = async () => {
     try {
@@ -59,13 +61,25 @@ export default function CoursesManagementPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('auth_token');
+      
+      // Kirim sebagai FormData agar bisa upload file gambar
+      const fd = new FormData();
+      fd.append('title', formData.title);
+      fd.append('description', formData.description);
+      fd.append('category_id', formData.category_id);
+      if (formData.thumbnail_file) {
+        fd.append('thumbnail_file', formData.thumbnail_file);
+      }
+
       if (editId) {
-        await axios.put(`/api/courses/${editId}`, formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        // Laravel tidak bisa baca multipart PUT, gunakan POST + _method spoofing
+        fd.append('_method', 'PUT');
+        await axios.post(`/api/courses/${editId}`, fd, {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
         });
       } else {
-        await axios.post('/api/courses', formData, {
-          headers: { Authorization: `Bearer ${token}` }
+        await axios.post('/api/courses', fd, {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
         });
       }
       closeForm();
@@ -80,15 +94,19 @@ export default function CoursesManagementPage() {
     setFormData({ 
       title: course.title, 
       description: course.description, 
-      category_id: course.category?.id?.toString() || '' 
+      category_id: course.category?.id?.toString() || '',
+      thumbnail_file: null,
     });
+    // Tampilkan thumbnail lama sebagai preview jika ada
+    setThumbnailPreview(course.thumbnail_url || course.thumbnail || null);
     setShowForm(true);
   };
 
   const closeForm = () => {
     setShowForm(false);
     setEditId(null);
-    setFormData({ title: '', description: '', category_id: '' });
+    setFormData({ title: '', description: '', category_id: '', thumbnail_file: null });
+    setThumbnailPreview(null);
   };
 
   // Filter logika
@@ -162,6 +180,43 @@ export default function CoursesManagementPage() {
                     value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                     className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#0F766E] resize-none"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Thumbnail Kelas (Opsional)</label>
+
+                  {thumbnailPreview && (
+                    <div className="relative w-full h-32 rounded-xl overflow-hidden mb-3 border border-gray-200">
+                      <img src={thumbnailPreview} alt="Preview" className="w-full h-full object-cover" />
+                      <button 
+                        type="button"
+                        onClick={() => { setThumbnailPreview(null); setFormData({...formData, thumbnail_file: null}); }}
+                        className="absolute top-2 right-2 bg-black/50 text-white rounded-full p-1 hover:bg-black/70"
+                      >
+                        <span className="material-icons text-sm">close</span>
+                      </button>
+                    </div>
+                  )}
+
+                  <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 hover:border-[#0F766E] transition-colors">
+                    <span className="material-icons text-3xl text-gray-400 mb-1">add_photo_alternate</span>
+                    <span className="text-sm font-medium text-gray-500">Klik untuk pilih gambar</span>
+                    <span className="text-xs text-gray-400 mt-0.5">JPG, PNG, WebP · Maks 5MB</span>
+                    <input 
+                      type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
+                      onChange={e => {
+                        const file = e.target.files?.[0] || null;
+                        setFormData({...formData, thumbnail_file: file});
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (ev) => setThumbnailPreview(ev.target?.result as string);
+                          reader.readAsDataURL(file);
+                        } else {
+                          setThumbnailPreview(null);
+                        }
+                      }}
+                    />
+                  </label>
                 </div>
               </div>
 
